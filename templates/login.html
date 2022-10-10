@@ -1,0 +1,39 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block content %}
+{% include "new_header.html" %}
+<header class="masthead" style="background-image: url('https://img.freepik.com/free-photo/sportswoman-has-workout-routines-looks-thoughtfully-away-thinks-about-winning-competition-listens-cool-soundtracks-headphones-going-creat-video-her-sport-blog-conduct-online-lesson_273609-53982.jpg?size=626&ext=jpg&ga=GA1.2.50801312.1658224031')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Login</h1>
+            <span class="subheading">Welcome Back!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <!-- This is where the form will go -->
+<form method="post" action="{{ url_for('login') }}">
+    {% with messages = get_flashed_messages() %}
+    {% if messages: %}
+    {% for message in messages %}
+    <p style="color: red;"><strong><em>{{ message }}</em></strong></p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+        {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+</form>
+
+      </div>
+    </div>
+  </div>
+
+{% include "footer.html" %}
+{% endblock %}

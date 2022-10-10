@@ -1,0 +1,39 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block content %}
+{% include "new_header.html" %}
+{{ ckeditor.load() }}
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/edit-bg.jpg')}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Send Mails</h1>
+            <span class="subheading">Let's send some mails!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+          {% for user in users: %}
+        <h6>{{ user.email }} -</h6>
+        {% endfor %}
+          <!-- This is where the form will go -->
+<form method="post" action="{{ url_for('mails') }}">
+          {{ ckeditor.config(name='message') }}
+
+        {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+</form>
+
+      </div>
+    </div>
+  </div>
+
+{% include "footer.html" %}
+{% endblock %}

@@ -1,0 +1,67 @@
+ {% include "new_header.html" %}
+
+  <!-- Page Header -->
+<header class="masthead" style="background-image: url('https://www.hussle.com/blog/wp-content/uploads/2020/10/Free-weights-vs-machines.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>EmiFits</h1>
+            <span class="subheading">A blog about everything fitness, health.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% if len > 12: %}
+        {% for post in all_posts[::-1] %}
+        <div class="post-preview">
+          <a href="{{ url_for('show_post', index=post.id) }}">
+            <h2 class="post-title">
+              {{post.title}}{% if user.id == 1: %}<a href="{{ url_for('delete', id=post.id) }}">❌</a>{% endif %}
+            </h2>
+            <h3 class="post-subtitle">
+              {{post.subtitle}}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{post.author.name}}</a>
+            on {{ post.date }}</p>
+        </div>
+        <hr>
+        {% endfor %}
+        {% else: %}
+        {% for post in all_posts: %}
+            <div class="post-preview">
+          <a href="{{ url_for('show_post', index=post.id) }}">
+            <h2 class="post-title">
+              {{post.title}}{% if user.id == 1: %}<a href="{{ url_for('delete', id=post.id) }}">❌</a>{% endif %}
+            </h2>
+            <h3 class="post-subtitle">
+              {{post.subtitle}}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{post.author.name}}</a>
+            on {{ post.date }}</p>
+        </div>
+
+        <!-- New Post -->
+        {% if user.id == 1 %}
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="{{ url_for('make_post', type=make) }}">Create New Post</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <hr>
+ {% endfor %}
+{% endif %}
+{% include "footer.html" %}

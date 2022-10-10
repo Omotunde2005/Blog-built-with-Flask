@@ -1,0 +1,39 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block content %}
+{% include "new_header.html" %}
+ <header class="masthead" style="background-image: url('https://img.freepik.com/free-photo/young-african-american-man-teaching-home-online-courses-fitness_155003-44023.jpg?size=626&ext=jpg&ga=GA1.2.50801312.1658224031')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>REGISTER</h1>
+            <span class="subheading">Register to drop your beautiful comments</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <!-- This is where the form will go -->
+<form method="post" action="{{ url_for('register') }}">
+    {% with messages = get_flashed_messages() %}
+    {% if messages: %}
+    {% for message in messages %}
+    <p><strong><em>{{ message }}</em></strong></p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+        {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+</form>
+
+      </div>
+    </div>
+  </div>
+
+{% include 'footer.html' %}}
+{% endblock %}
