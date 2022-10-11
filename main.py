@@ -38,6 +38,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+app.secret_key = os.environ.get('LOGIN_KEY')
 
 
 # CONFIGURE TABLE
