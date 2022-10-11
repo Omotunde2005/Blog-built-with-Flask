@@ -25,19 +25,18 @@ YEAR = dt.datetime.now().year
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap(app)
 gravatar = Gravatar(app, size=60, rating='g', default='retro',
                     force_default=False, force_lower=False, use_ssl=False, base_url=None)
 # CONNECT TO DB
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.secret_key = "Edun2005retweetme."
 
 
 # CONFIGURE TABLE
@@ -149,7 +148,7 @@ def contact():
             return redirect(url_for('login'))
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
-            connection.login(password=os.getenv("PASSWORD"), user="omotundeedun@gmail.com")
+            connection.login(password=os.environ.get("PASSWORD"), user="omotundeedun@gmail.com")
             connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs="edunrilwan@gmail.com",
                                 msg=f"Subject: Message from blog\n\nname:{form.name.data}\n"
                                     f"email:{form.email.data}\n"
@@ -261,7 +260,7 @@ def mails():
         for user in all_users:
             message = MIMEMultipart("alternative")
             message["Subject"] = form.subject.data
-            message["From"] = os.getenv("EMAIL")
+            message["From"] = "omotundeedun@gmail.com"
             message["To"] = user.email
             html = f"""\
             {form.message.data}
@@ -271,7 +270,7 @@ def mails():
             try:
                 with smtplib.SMTP("smtp.gmail.com") as connection:
                     connection.starttls()
-                    connection.login(password=os.getenv("PASSWORD"), user="omotundeedun@gmail.com")
+                    connection.login(password=os.environ.get("PASSWORD"), user="omotundeedun@gmail.com")
                     connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs=user.email,
                                         msg=message.as_string())
             except:
@@ -279,7 +278,7 @@ def mails():
             else:
                 pass
             time.sleep(1)
-            return redirect(url_for('get_all_posts'))
+          return redirect(url_for('get_all_posts'))
     return render_template("send_email.html", form=form, users=all_users, user=current_user.is_authenticated, year=YEAR)
 
 
