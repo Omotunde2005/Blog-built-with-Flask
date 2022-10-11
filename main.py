@@ -38,7 +38,7 @@ app.config['SECRET_KEY'] = 'my_app_secret_key'
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.secret_key = Edun2005retweetme.
+app.secret_key = 'Edun2005retweetme'
 
 
 # CONFIGURE TABLE
