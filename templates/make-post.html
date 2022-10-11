@@ -25,7 +25,7 @@
 <form method="post" action="{{ url_for('make_post') }}">
           {{ ckeditor.config(name='body') }}
 
-        {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+        {{ wtf.quick_form(form, button_map={'submit': 'primary'}), novalidate=True }}
 </form>
 
       </div>
