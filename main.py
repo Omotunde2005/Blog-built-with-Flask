@@ -25,7 +25,7 @@ YEAR = dt.datetime.now().year
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
 ckeditor = CKEditor(app)
 Bootstrap(app)
 gravatar = Gravatar(app, size=60, rating='g', default='retro',
@@ -34,6 +34,7 @@ gravatar = Gravatar(app, size=60, rating='g', default='retro',
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
