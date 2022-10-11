@@ -149,8 +149,8 @@ def contact():
             return redirect(url_for('login'))
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
-            connection.login(password=os.getenv("PASSWORD"), user=os.getenv("EMAIL"))
-            connection.sendmail(from_addr=os.getenv("EMAIL"), to_addrs="edunrilwan@gmail.com",
+            connection.login(password=os.getenv("PASSWORD"), user="omotundeedun@gmail.com")
+            connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs="edunrilwan@gmail.com",
                                 msg=f"Subject: Message from blog\n\nname:{form.name.data}\n"
                                     f"email:{form.email.data}\n"
                                     f"message: {form.message.data}\n")
@@ -271,7 +271,7 @@ def mails():
             try:
                 with smtplib.SMTP("smtp.gmail.com") as connection:
                     connection.starttls()
-                    connection.login(password=os.getenv("PASSWORD"), user=os.getenv("EMAIL"))
+                    connection.login(password=os.getenv("PASSWORD"), user="omotundeedun@gmail.com")
                     connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs=user.email,
                                         msg=message.as_string())
             except:
