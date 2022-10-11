@@ -32,13 +32,13 @@ gravatar = Gravatar(app, size=60, rating='g', default='retro',
                     force_default=False, force_lower=False, use_ssl=False, base_url=None)
 # CONNECT TO DB
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = 'my_app_secret_key'
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.secret_key = os.environ.get('LOGIN_KEY')
+app.secret_key = Edun2005retweetme.
 
 
 # CONFIGURE TABLE
@@ -150,7 +150,7 @@ def contact():
             return redirect(url_for('login'))
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
-            connection.login(password=os.environ.get("PASSWORD"), user="omotundeedun@gmail.com")
+            connection.login(password="yobtemzvjvdjqucc", user="omotundeedun@gmail.com")
             connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs="edunrilwan@gmail.com",
                                 msg=f"Subject: Message from blog\n\nname:{form.name.data}\n"
                                     f"email:{form.email.data}\n"
@@ -272,7 +272,7 @@ def mails():
             try:
                 with smtplib.SMTP("smtp.gmail.com") as connection:
                     connection.starttls()
-                    connection.login(password=os.environ.get("PASSWORD"), user="omotundeedun@gmail.com")
+                    connection.login(password='yobtemzvjvdjqucc', user="omotundeedun@gmail.com")
                     connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs=user.email,
                                         msg=message.as_string())
             except:
