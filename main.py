@@ -280,7 +280,7 @@ def mails():
             else:
                 pass
             time.sleep(1)
-          return redirect(url_for('get_all_posts'))
+         return redirect(url_for('get_all_posts'))
     return render_template("send_email.html", form=form, users=all_users, user=current_user.is_authenticated, year=YEAR)
 
 
