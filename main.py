@@ -102,13 +102,12 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["GET"])
 def get_all_posts():
-    if request.method == "GET":
-        posts = db.session.query(BlogPost).all()
-        length = len(posts)
-        return render_template("new_index.html", all_posts=posts, user=current_user, len=length, year=YEAR)
-    return redirect(url_for('get_all_posts'))
+    posts = db.session.query(BlogPost).all()
+    
+    return render_template("new_index.html", all_posts=posts, user=current_user, year=YEAR)
+    
 
 
 @app.route("/post/<int:index>", methods=["POST", "GET"])
@@ -127,13 +126,13 @@ def show_post(index):
         db.session.add(new_comment)
         db.session.commit()
         return redirect(url_for('get_all_posts'))
-    else:
-        requested_post = None
-        posts = db.session.query(BlogPost).all()
-        for blog_post in posts:
-            if blog_post.id == index:
-                requested_post = blog_post
-        return render_template("new_post.html", post=requested_post, user=current_user, form=form, year=YEAR)
+    
+    requested_post = None
+    posts = db.session.query(BlogPost).all()
+    for blog_post in posts:
+        if blog_post.id == index:
+            requested_post = blog_post
+            return render_template("new_post.html", post=requested_post, user=current_user, form=form, year=YEAR)
 
 
 @app.route("/about")
@@ -155,21 +154,19 @@ def contact():
 @app.route("/make-post", methods=["GET", "POST"])
 @admin_only
 def make_post():
-    if request.method == "POST":
-        form = CreatePostForm()
-        if form.validate_on_submit():
-            new_post = BlogPost(
-                title=form.title.data,
-                subtitle=form.subtitle.data,
-                body=form.body.data,
-                date=date.today().strftime("%B %d, %Y"),
-                img_url=form.img_url.data,
-                author=current_user
-            )
-            db.session.add(new_post)
-            db.session.commit()
-            return redirect(url_for('get_all_posts'))
     form = CreatePostForm()
+    if form.validate_on_submit():
+        new_post = BlogPost(
+            title=form.title.data,
+            subtitle=form.subtitle.data,
+            body=form.body.data,
+            date=date.today().strftime("%B %d, %Y"),
+            img_url=form.img_url.data,
+            author=current_user
+            )
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(url_for('get_all_posts'))
     word = "New post"
     return render_template('make-post.html', form=form, word=word, user=current_user, year=YEAR)
 
