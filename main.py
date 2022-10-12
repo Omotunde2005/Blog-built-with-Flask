@@ -147,15 +147,8 @@ def contact():
     if form.validate_on_submit():
         if not current_user.is_authenticated:
             flash("You need to login to send the message. You don't have an account? Kindly Register.")
-            return redirect(url_for('login'))
-        with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.starttls()
-            connection.login(password="yobtemzvjvdjqucc", user="omotundeedun@gmail.com")
-            connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs="edunrilwan@gmail.com",
-                                msg=f"Subject: Message from blog\n\nname:{form.name.data}\n"
-                                    f"email:{form.email.data}\n"
-                                    f"message: {form.message.data}\n")
-        return redirect(url_for('get_all_posts'))
+            return redirect(url_for('login'))                    
+                 
     return render_template("contact.html", user=current_user, form=form, year=YEAR)
 
 
@@ -254,35 +247,7 @@ def logout():
     return redirect(url_for('get_all_posts'))
 
 
-@app.route("/my/blog/send/emails/", methods=["POST", "GET"])
-def mails():
-    form = MailForm()
-    all_users = db.session.query(User).all()
-    if form.validate_on_submit():
-        for user in all_users:
-            message = MIMEMultipart("alternative")
-            message["Subject"] = form.subject.data
-            message["From"] = "omotundeedun@gmail.com"
-            message["To"] = user.email
-            html = f"""\
-            {form.message.data}
-            """
-            text = MIMEText(html, "html")
-            message.attach(text)
-            try:
-                with smtplib.SMTP("smtp.gmail.com") as connection:
-                    connection.starttls()
-                    connection.login(password='yobtemzvjvdjqucc', user="omotundeedun@gmail.com")
-                    connection.sendmail(from_addr="omotundeedun@gmail.com", to_addrs=user.email,
-                                        msg=message.as_string())
-            except:
-                pass
-            else:
-                pass
-            time.sleep(1)
-         return redirect(url_for('get_all_posts'))
-    return render_template("send_email.html", form=form, users=all_users, user=current_user.is_authenticated, year=YEAR)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)
