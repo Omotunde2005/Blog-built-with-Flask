@@ -32,13 +32,13 @@ gravatar = Gravatar(app, size=60, rating='g', default='retro',
                     force_default=False, force_lower=False, use_ssl=False, base_url=None)
 # CONNECT TO DB
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'my_app_secret_key'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.secret_key = 'Edun2005retweetme'
+app.secret_key = os.environ.get('LOGIN_KEY')
 
 
 # CONFIGURE TABLE
