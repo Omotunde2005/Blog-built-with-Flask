@@ -179,7 +179,7 @@ def edit(id):
         title=blog_post.title,
         subtitle=blog_post.subtitle,
         body=blog_post.body,
-        author=blog_post.author,
+        author=blog_post.author.name,
         img_url=blog_post.img_url,
     )
     word = "Edit Post"
