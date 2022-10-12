@@ -185,7 +185,7 @@ def edit(id):
     word = "Edit Post"
     db.session.delete(blog_post)
     db.session.commit()
-    return render_template('make-post.html', form=form, word=word, year=YEAR)
+    return render_template('make-post.html', form=form, word=word, year=YEAR, user=current_user)
 
 
 @app.route("/delete/<int:id>")
