@@ -43,8 +43,9 @@ related questions.">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('login')}}">Login</a></li>
                           {% endif %}
                       <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('logout')}}">logout</a></li>
+                      {% if user.id == 1: %}
                       <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('contact')}}">Contact</a></li>
-
+                        {% endif %}
                     </ul>
                 </div>
             </div>
