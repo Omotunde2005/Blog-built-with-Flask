@@ -227,7 +227,7 @@ def login():
         if user:
             if correct_pass:
                 login_user(user)
-                return redirect(url_for('get_all_posts'))
+                return redirect(url_for('login'))
             else:
                 flash("The password you entered does not match your email")
                 return redirect(url_for('login'))
