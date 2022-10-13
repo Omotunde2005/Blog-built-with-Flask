@@ -227,7 +227,7 @@ def login():
         if user:
             if correct_pass:
                 login_user(user)
-                return redirect(url_for('login'))
+                return redirect(url_for('get_all_posts'))
             else:
                 flash("The password you entered does not match your email")
                 return redirect(url_for('login'))
@@ -254,7 +254,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         flash("Registration Successful")
-        return redirect(url_for('get_all_posts'))
+        return redirect(url_for('login'))
     return render_template("register.html", form=form, user=current_user, year=YEAR)
 
 
