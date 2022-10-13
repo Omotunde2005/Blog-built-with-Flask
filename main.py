@@ -74,7 +74,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
-db.create_all()
+#db.create_all()
 
 
 def admin_only(f):
@@ -141,14 +141,34 @@ def about():
 
 
 @app.route("/contact", methods=["GET", "POST"])
+@admin_only
 def contact():
-    form = ContactForm()
+    form = MailForm()
+    all_users = db.session.query(User).all()
     if form.validate_on_submit():
-        if not current_user.is_authenticated:
-            flash("You need to login to send the message. You don't have an account? Kindly Register.")
-            return redirect(url_for('login'))                    
-                 
-    return render_template("contact.html", user=current_user, form=form, year=YEAR)
+        for user in all_users:
+            message = MIMEMultipart("alternative")
+            message["Subject"] = form.subject.data
+            message["From"] = os.getenv("EMAIL")
+            message["To"] = user.email
+            html = f"""\
+            {form.message.data}
+            """
+            text = MIMEText(html, "html")
+            message.attach(text)
+            try:
+                with smtplib.SMTP("smtp.gmail.com") as connection:
+                    connection.starttls()
+                    connection.login(password=os.environ.get("PASSWORD"), user=os.environ.get("EMAIL"))
+                    connection.sendmail(from_addr=os.environ.get("PASSWORD"), to_addrs=user.email,
+                                        msg=message.as_string())
+            except:
+                pass
+            else:
+                pass
+            time.sleep(1)
+        return redirect(url_for('get_all_posts'))
+    return render_template("contact.html", form=form, user=current_user, year=YEAR)
 
 
 @app.route("/make-post", methods=["GET", "POST"])
